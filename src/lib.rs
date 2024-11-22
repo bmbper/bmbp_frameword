@@ -1,6 +1,7 @@
 mod action;
 mod view;
 
+use crate::action::root_action;
 use crate::view::framework_index_view;
 use bmbp_abc::tera_add_template;
 use rust_embed::RustEmbed;
@@ -14,7 +15,7 @@ struct StaticAssets;
 pub fn build_router() -> Router {
     let mut router = Router::new();
     router = router.push(Router::with_path("/static/<**path>").get(static_embed::<StaticAssets>()));
-
+    router = router.push(Router::new().get(root_action));
     router = router.push(Router::with_path("/framework.view").get(framework_index_view));
 
     router
