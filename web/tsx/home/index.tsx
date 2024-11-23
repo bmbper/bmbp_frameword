@@ -1,4 +1,116 @@
+import {HomeAction, HomeState} from "./action";
+
 window.onload = () => {
     const root = ReactDOM.createRoot(document.getElementById("app"));
-    root.render(<div>Home</div>);
+    root.render(<FrameworkView/>);
+}
+
+const FrameworkView = () => {
+    HomeAction.init();
+    return (
+        <>
+            <div className={"bmbp_full"}>
+                <div className={'bmbp_layout_v'}>
+                    <div className={'bmbp_header'}>
+
+                    </div>
+                    <div className={'bmbp_center'}>
+                        <div className={'bmbp_layout_h'}>
+                            <div className={'bmbp_aside'}>
+                                <BmbpSideNavMenu/>
+                            </div>
+                            <div className={"bmbp_divider_v"}></div>
+                            <div className={'bmbp_center'}>
+                                <div className={'bmbp_layout_v'}>
+                                    <div className={'bmbp_center'}>
+                                        <PageView/>
+                                    </div>
+                                    <div className={'bmbp_bottom'}>
+                                        <AppCopyRightView/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+const BmbpSideNavMenu = () => {
+    const generateMenu = (menuArray: any[]) => {
+        return menuArray.map((item: any) => {
+            if (item.children && item.children.length > 0) {
+                return (
+                    <arco.Menu.SubMenu
+                        key={item.id}
+                        title={<>
+                            <arcoicon.IconHome/>
+                            {item.name}</>}
+                        onClick={() => {
+                            HomeAction.onClickSideMenu(item);
+                        }}
+                    >
+                        {generateMenu(item.children)}
+                    </arco.Menu.SubMenu>
+                );
+            } else {
+                return (
+                    <arco.Menu.Item
+                        key={item.id}
+                        onClick={() => {
+                            HomeAction.onClickSideMenu(item);
+                        }}
+                    >
+                        <arcoicon.IconHome/>
+                        {item.name}
+                    </arco.Menu.Item>
+                );
+            }
+        });
+    };
+
+    return (
+        <arco.Menu accordion ellipsis className="bmbp-nav-menu">
+            {generateMenu(HomeState.navMenuData)}
+        </arco.Menu>
+    );
+};
+const PageView = () => {
+    return (
+        <div className={'bmbp_layout_v'}>
+            <PageTitle/>
+            <PageIFrame/>
+        </div>
+    )
+}
+
+/// 面包屑
+const PageTitle = () => {
+    return (
+        <div className="bmbp_page_breadcrumb">
+            <arco.Breadcrumb>
+                {HomeState.pageTitle.map((item: any) => {
+                    return <arco.Breadcrumb.Item>{item}</arco.Breadcrumb.Item>;
+                })}
+            </arco.Breadcrumb>
+        </div>
+    );
+};
+/// 中间嵌套页面
+const PageIFrame = () => {
+    return (
+        <iframe
+            src={HomeState.pageIframeSrc}
+            className="bmbp_page_iframe"
+        ></iframe>
+    );
+};
+
+const AppCopyRightView = () => {
+    return (
+        <div className={'bmbp_copy_right'}>
+            Copyright © 2023-2024 bmbp.com All Rights Reserved.
+        </div>
+    )
 }

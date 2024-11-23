@@ -1,0 +1,1 @@
+sass --watch web/scss/default/index.scss:static/bmbp_framework/css/default/index.css
