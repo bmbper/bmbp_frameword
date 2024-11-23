@@ -12,7 +12,10 @@ const FrameworkView = () => {
             <div className={"bmbp_full"}>
                 <div className={'bmbp_layout_v'}>
                     <div className={'bmbp_header'}>
-
+                        <BmbpAppIcon/>
+                        <BmbpAppNav/>
+                        <BmbpAppSetting/>
+                        <BmbpAppUser/>
                     </div>
                     <div className={'bmbp_center'}>
                         <div className={'bmbp_layout_h'}>
@@ -37,6 +40,52 @@ const FrameworkView = () => {
         </>
     )
 }
+
+const BmbpAppIcon = () => {
+    const appIconString = "data:image/png;base64," + appIcon;
+    return (
+        <div className={'bmbp_app_icon'}>
+            <img src={appIconString}></img>
+            <span>Bmbp Admin</span>
+        </div>
+    )
+}
+const BmbpAppNav = () => {
+    return (
+        <div className={'bmbp_app_nav'}>
+        </div>
+    )
+}
+const BmbpAppSetting = () => {
+    return (
+        <div className={'bmbp_app_setting'}>
+            <BmbpIconFont type={'icon-quanping'}></BmbpIconFont>
+            <BmbpIconFont type={'icon-pc'}></BmbpIconFont>
+            <BmbpIconFont type={'icon-weidu'}></BmbpIconFont>
+            <BmbpIconFont type={'icon-shezhixuanzhong'}></BmbpIconFont>
+        </div>
+    )
+}
+const BmbpAppUser = () => {
+    const dropList = (
+        <arco.Menu>
+            <arco.Menu.Item key='1'>个人中心</arco.Menu.Item>
+            <arco.Menu.Item key='2'>修改密码</arco.Menu.Item>
+            <arco.Menu.Item key='3'>退出</arco.Menu.Item>
+        </arco.Menu>
+    );
+    return (
+        <div className={'bmbp_app_user'}>
+            <arco.Dropdown droplist={dropList} position={'br'}>
+                <arco.Avatar autoFixFontSize={true}>
+                    {currentUser}
+                </arco.Avatar>
+            </arco.Dropdown>
+        </div>
+    )
+}
+
+
 const BmbpSideNavMenu = () => {
     const generateMenu = (menuArray: any[]) => {
         return menuArray.map((item: any) => {
@@ -45,7 +94,7 @@ const BmbpSideNavMenu = () => {
                     <arco.Menu.SubMenu
                         key={item.id}
                         title={<>
-                            <arcoicon.IconHome/>
+                            <BmbpIconFont type={item.icon}/>
                             {item.name}</>}
                         onClick={() => {
                             HomeAction.onClickSideMenu(item);
@@ -62,7 +111,7 @@ const BmbpSideNavMenu = () => {
                             HomeAction.onClickSideMenu(item);
                         }}
                     >
-                        <arcoicon.IconHome/>
+                        <BmbpIconFont type={item.icon}/>
                         {item.name}
                     </arco.Menu.Item>
                 );

@@ -10,10 +10,12 @@ export const HomeAction = {
         const [navMenuData, setNavMenuData] = React.useState([{
             id: '001',
             name: '配置置中心',
+            icon: 'icon-peizhi-yunweipeizhi',
             children: [
                 {
                     id: '001001',
                     name: '应用管理',
+                    icon: 'icon-yingyongguanli'
                 }
             ]
         }]);
