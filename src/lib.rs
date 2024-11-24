@@ -9,12 +9,13 @@ use salvo::serve_static::static_embed;
 use salvo::Router;
 
 #[derive(RustEmbed)]
-#[folder = "static"]
+#[folder = "static/bmbp_framework"]
 struct StaticAssets;
 
 pub fn build_router() -> Router {
     let mut router = Router::new();
-    router = router.push(Router::with_path("/static/<**path>").get(static_embed::<StaticAssets>()));
+    router = router
+        .push(Router::with_path("/static/framework/<**path>").get(static_embed::<StaticAssets>()));
     router = router.push(Router::new().get(root_action));
     router = router.push(Router::with_path("/framework.view").get(framework_index_view));
 
