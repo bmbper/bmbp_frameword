@@ -29,6 +29,17 @@ var HomeAction = {
       HomeState.setSelectMenu(menu);
       HomeState.setBreadcrumbData(menu.namePath.split("/"));
     }
+  },
+  logout: () => {
+    axios.post("./auth/logout.action").then((resp) => {
+      if (resp.code == 0) {
+        arco.Message.success(resp.msg);
+        window.localStorage.removeItem("token");
+        window.location.href = appHomeView;
+      } else {
+        arco.Message.error(resp.msg);
+      }
+    });
   }
 };
 
@@ -95,7 +106,10 @@ var BmbpAppUser = () => {
   }, "个人中心"), /* @__PURE__ */ React.createElement(arco.Menu.Item, {
     key: "2"
   }, "修改密码"), /* @__PURE__ */ React.createElement(arco.Menu.Item, {
-    key: "3"
+    key: "3",
+    onClick: () => {
+      HomeAction.logout();
+    }
   }, "退出"));
   return /* @__PURE__ */ React.createElement("div", {
     className: "bmbp_app_user"

@@ -30,4 +30,16 @@ export const HomeAction = {
         }
     },
 
+    logout: () => {
+        axios.post("./auth/logout.action").then((resp: any) => {
+            if (resp.code == 0) {
+                arco.Message.success(resp.msg);
+                window.localStorage.removeItem("token");
+                window.location.href = appHomeView;
+            } else {
+                arco.Message.error(resp.msg);
+            }
+        });
+    }
+
 };

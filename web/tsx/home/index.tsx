@@ -71,7 +71,10 @@ const BmbpAppUser = () => {
         <arco.Menu>
             <arco.Menu.Item key='1'>个人中心</arco.Menu.Item>
             <arco.Menu.Item key='2'>修改密码</arco.Menu.Item>
-            <arco.Menu.Item key='3'>退出</arco.Menu.Item>
+            <arco.Menu.Item key='3' onClick={() => {
+                HomeAction.logout()
+            }}>退出
+            </arco.Menu.Item>
         </arco.Menu>
     );
     return (
