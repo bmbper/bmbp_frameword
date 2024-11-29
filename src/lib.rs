@@ -1,6 +1,5 @@
 mod action;
 mod view;
-
 use crate::action::root_action;
 use crate::view::framework_index_view;
 use bmbp_abc::tera_add_template;
@@ -9,13 +8,14 @@ use salvo::serve_static::static_embed;
 use salvo::Router;
 
 #[derive(RustEmbed)]
-#[folder = "static/bmbp_framework"]
+#[folder = "static/bmbp_framework/"]
 struct StaticAssets;
 
 pub fn build_router() -> Router {
     let mut router = Router::new();
-    router = router
-        .push(Router::with_path("/static/framework/<**path>").get(static_embed::<StaticAssets>()));
+    router = router.push(
+        Router::with_path("/static/bmbp_framework/<**path>").get(static_embed::<StaticAssets>()),
+    );
     router = router.push(Router::new().get(root_action));
     router = router.push(Router::with_path("/framework.view").get(framework_index_view));
 
@@ -23,7 +23,8 @@ pub fn build_router() -> Router {
 }
 
 #[derive(RustEmbed)]
-#[folder = "web/templates"]
+#[folder = "web/templates/"]
+#[prefix = "bmbp_framework/"]
 pub(crate) struct PageAssets;
 pub fn build_template() {
     for file_path in PageAssets::iter() {
