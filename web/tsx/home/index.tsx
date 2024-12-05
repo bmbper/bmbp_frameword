@@ -95,11 +95,12 @@ const BmbpSideNavMenu = () => {
             if (item.children && item.children.length > 0) {
                 return (
                     <arco.Menu.SubMenu
-                        key={item.id}
+                        key={item.menu_id}
                         title={<>
-                            <BmbpIconFont type={item.icon}/>
-                            {item.name}</>}
-                        onClick={() => {
+                            <BmbpIconFont type={item.menu_icon}/>
+                            {item.menu_name}</>}
+                        onClick={(e) => {
+                            e.stopPropagation();
                             HomeAction.onClickSideMenu(item);
                         }}
                     >
@@ -109,13 +110,14 @@ const BmbpSideNavMenu = () => {
             } else {
                 return (
                     <arco.Menu.Item
-                        key={item.id}
-                        onClick={() => {
+                        key={item.menu_id}
+                        onClick={(e) => {
+                            e.stopPropagation();
                             HomeAction.onClickSideMenu(item);
                         }}
                     >
-                        <BmbpIconFont type={item.icon}/>
-                        {item.name}
+                        <BmbpIconFont type={item.menu_icon}/>
+                        {item.menu_name}
                     </arco.Menu.Item>
                 );
             }

@@ -2,21 +2,25 @@
 var HomeState = {};
 var HomeAction = {
   init: () => {
-    const [pageTitle, setPageTitle] = React.useState(["首页", "个人首页"]);
+    const [pageTitle, setPageTitle] = React.useState([]);
     HomeState.pageTitle = pageTitle;
     HomeState.setPageTitle = setPageTitle;
-    const [pageIframeSrc, setPageIframeSrc] = React.useState("index.view");
+    const [pageIframeSrc, setPageIframeSrc] = React.useState("");
     HomeState.pageIframeSrc = pageIframeSrc;
     HomeState.setPageIframeSrc = setPageIframeSrc;
     const [navMenuData, setNavMenuData] = React.useState([{
-      id: "001",
-      name: "配置置中心",
-      icon: "icon-peizhi-yunweipeizhi",
+      menu_id: "001",
+      menu_name: "配置置中心",
+      menu_icon: "icon-peizhi-yunweipeizhi",
+      menu_name_path: "配置中心",
+      menu_url: "#",
       children: [
         {
-          id: "001001",
-          name: "应用管理",
-          icon: "icon-yingyongguanli"
+          menu_id: "001001",
+          menu_name: "应用分组管理",
+          menu_icon: "icon-yingyongguanli",
+          menu_url: "/rbac/app/group/index.view",
+          menu_name_path: "配置中心/应用分组管理"
         }
       ]
     }]);
@@ -24,10 +28,9 @@ var HomeAction = {
     HomeState.setNavMenuData = setNavMenuData;
   },
   onClickSideMenu: (menu) => {
-    if (menu.url && menu.url != "#") {
-      HomeState.setContentSrc(menu.url);
-      HomeState.setSelectMenu(menu);
-      HomeState.setBreadcrumbData(menu.namePath.split("/"));
+    if (menu.menu_url && menu.menu_url != "#") {
+      HomeState.setPageIframeSrc(menu.menu_url);
+      HomeState.setPageTitle(menu.menu_name_path.split("/"));
     }
   },
   logout: () => {
@@ -125,23 +128,25 @@ var BmbpSideNavMenu = () => {
     return menuArray.map((item) => {
       if (item.children && item.children.length > 0) {
         return /* @__PURE__ */ React.createElement(arco.Menu.SubMenu, {
-          key: item.id,
+          key: item.menu_id,
           title: /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(BmbpIconFont, {
-            type: item.icon
-          }), item.name),
-          onClick: () => {
+            type: item.menu_icon
+          }), item.menu_name),
+          onClick: (e) => {
+            e.stopPropagation();
             HomeAction.onClickSideMenu(item);
           }
         }, generateMenu(item.children));
       } else {
         return /* @__PURE__ */ React.createElement(arco.Menu.Item, {
-          key: item.id,
-          onClick: () => {
+          key: item.menu_id,
+          onClick: (e) => {
+            e.stopPropagation();
             HomeAction.onClickSideMenu(item);
           }
         }, /* @__PURE__ */ React.createElement(BmbpIconFont, {
-          type: item.icon
-        }), item.name);
+          type: item.menu_icon
+        }), item.menu_name);
       }
     });
   };
